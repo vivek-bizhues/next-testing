@@ -41,7 +41,11 @@ export default function Dashboard() {
   const [editMode, setEditMode] = useState(false); // Set default to false
   const [layoutConfig, setLayoutConfig] = useState([]);
   const modelStructure = useSelector((state) => state.imTemplate.data);
-  const store = useSelector((state) => state);
+  const dashboardCharts = useSelector(
+    (state) => state.dashboardChartSlice.data
+  );
+
+  // const store = useSelector((state) => state);
   // const { logout } = useAuth();
   // const router = useRouter();
 
@@ -95,7 +99,7 @@ export default function Dashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    const layoutConfigData = store.dashboardChartSlice.data.map((chart) => ({
+    const layoutConfigData = dashboardCharts?.map((chart) => ({
       i: chart.id.toString(),
       x: chart.layout?.x || 0,
       y: chart.layout?.y || 0,
@@ -103,7 +107,7 @@ export default function Dashboard() {
       h: chart.layout?.h || 4,
     }));
     setLayoutConfig(layoutConfigData);
-  }, [store.dashboardChartSlice.data]);
+  }, [dashboardCharts]);
 
   // const { settings } = useSettings();
 
@@ -171,8 +175,8 @@ export default function Dashboard() {
               isResizable={editMode}
               onLayoutChange={onLayoutChange}
             >
-              {store.dashboardChartSlice.data.length > 0 ? (
-                store.dashboardChartSlice.data.map((chart, index) => {
+              {dashboardCharts?.length > 0 ? (
+                dashboardCharts?.map((chart, index) => {
                   const dataseries = chart.data_series.map((series) => {
                     if (typeof series === "string") {
                       return getNestedData(modelStructure, series);
