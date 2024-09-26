@@ -1,0 +1,11 @@
+/* This will target Bootstrap's default arrow and hide it */
+.custom-dropdown-toggle::after {
+    display: none !important; /* Completely hides the dropdown arrow */
+  }
+  
+  .custom-dropdown-toggle {
+    cursor: pointer; /* Optional: make sure it looks clickable */
+    font-size: 24px; /* Adjust the size of the three dots if needed */
+  }
+  
+  
