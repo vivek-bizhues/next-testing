@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 export default function Signin2() {
   const [email, setEmail] = useState("consultant");
   const [password, setPassword] = useState("Reset@1212");
-  const { login } = useContext(UserContext); // Access login function from UserContext
-  const router = useRouter(); // Router for redirection
+  const { login } = useContext(UserContext);
+  const router = useRouter();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -85,7 +85,7 @@ export default function Signin2() {
               </Form>
             </Card.Body>
             <Card.Footer>
-              Don't have an account?{" "}
+              Don&apos;t have an account?
               <Link href="/signup">Create an Account</Link>
             </Card.Footer>
           </Card>

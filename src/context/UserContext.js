@@ -5,17 +5,15 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Loading state
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is already logged in by checking localStorage
     const storedProfile = localStorage.getItem("userProfile");
     if (storedProfile) {
       setUser(JSON.parse(storedProfile));
-    } else if (router.pathname !== "/login") {
-      // Redirect to login page if not logged in and trying to access a protected route
-      router.push("/login");
     }
+    setLoading(false); // Set loading to false after checking
   }, []);
 
   const login = (profile) => {
@@ -30,7 +28,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
