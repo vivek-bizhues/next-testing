@@ -4,6 +4,7 @@ import "@/assets/css/remixicon.css";
 import "@/scss/style.scss";
 import { UserProvider } from "@/context/UserContext";
 import Layout from "@/layouts/Layout";
+import "@silevis/reactgrid/styles.css";
 
 export default function App({ Component, pageProps }) {
   return (

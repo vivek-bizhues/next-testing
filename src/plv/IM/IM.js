@@ -39,8 +39,8 @@ export default function IM() {
   const [loading, setLoading] = useState(true);
   const activeEntity = getCurrentEntity();
   const imvs = getCurrentEntityIMVs();
-  const active_imv = imvs.find(
-    (imv) => imv.id === activeEntity.active_im_version
+  const active_imv = imvs?.find(
+    (imv) => imv.id === activeEntity?.active_im_version
   );
   const [average, setAverage] = useState(0);
   const [sum, setSum] = useState(0);
@@ -50,6 +50,8 @@ export default function IM() {
   const modelStructure = useSelector((state) => state.imTemplate);
 
   const [activeIMV, setActiveIMV] = useState(active_imv);
+  const [dates, setDates] = useState({ startDate: null, endDate: null });
+
 
   // const { logout } = useAuth();
   // const router = useRouter();
@@ -69,19 +71,27 @@ export default function IM() {
       });
   }, [dispatch]);
 
+  useEffect(() => {
+    if (activeEntity) {
+        const startDate = parseDate(activeEntity.start_date);
+        const endDate = parseDate(activeEntity.end_date);
+        setDates({ startDate, endDate });
+    }
+}, [activeEntity]);
+
   const ROW_HEIGHT = 32;
 
-  const startDate = activeEntity.start_date;
-  const endDate = activeEntity.end_date;
+  // const startDate = activeEntity?.start_date;
+  // const endDate = activeEntity?.end_date;
 
-  const modifiedStartDate = parseDate(startDate);
-  const modifiedEndDate = parseDate(endDate);
+  // const modifiedStartDate = parseDate(startDate);
+  // const modifiedEndDate = parseDate(endDate);
 
   const modelDateRange = getDateRangeInMonths(
-    modifiedStartDate,
-    modifiedEndDate,
+    dates.startDate,
+    dates.endDate,
     "yyyy-MM-01"
-  );
+);
 
   const [rows, setRows] = useState([]);
 
@@ -193,13 +203,6 @@ export default function IM() {
     return rowCellsList;
   };
 
-  // Utility function to format amounts
-  // const formatAmount = (amount) => {
-  //   return amount.toLocaleString(undefined, {
-  //     minimumFractionDigits: 2,
-  //     maximumFractionDigits: 2,
-  //   });
-  // };
   const commaSeperator = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -527,292 +530,301 @@ export default function IM() {
             <h4 className="main-title mb-0">Integrated Model</h4>
           </div>
           {loading && (
-            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}>
+            <div
+              style={{
+                marginLeft: "auto",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <ReactLoaderRound />
             </div>
           )}
         </div>
         <div className="plv2_rg">
-        <style>{generateDynamicCss()}</style>
+          <style>{generateDynamicCss()}</style>
 
-        <Grid container spacing={2} justifyContent="flex-end">
-          <Grid item xs={12}>
-            <Accordion>
-              <AccordionSummary
-                id="panel1-header"
-                expandIcon={<GridExpandMoreIcon></GridExpandMoreIcon>}
-              >
-                Configuration variables
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={2}>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="income_tax_rate"
-                      label="Income Tax Rate"
-                      title="Income Tax Rate"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.income_tax_rate}
-                      onChange={handleInputChange}
-                      error={
-                        !validatePercentageValue(activeIMV?.income_tax_rate)
-                      }
-                      helperText={
-                        !validatePercentageValue(activeIMV?.income_tax_rate)
-                          ? "Value must be between 0 and 100"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="interest_rate_on_deposits"
-                      label="Interest Rate On Deposits"
-                      title="Interest Rate On Deposits"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.interest_rate_on_deposits}
-                      onChange={handleInputChange}
-                      error={
-                        !validatePercentageValue(
-                          activeIMV?.interest_rate_on_deposits
-                        )
-                      }
-                      helperText={
-                        !validatePercentageValue(
-                          activeIMV?.interest_rate_on_deposits
-                        )
-                          ? "Value must be between 0 and 100"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="inventory_days"
-                      label="Inventory Days"
-                      title="Inventory Days"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.inventory_days}
-                      onChange={handleInputChange}
-                      error={!validateDaysValue(activeIMV?.inventory_days)}
-                      helperText={
-                        !validateDaysValue(activeIMV?.inventory_days)
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="accounts_payable_days_costs_of_sales"
-                      label="Accounts Payable Days CoS"
-                      title="Accounts Payable Days Cost of sales"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.accounts_payable_days_costs_of_sales}
-                      onChange={handleInputChange}
-                      error={
-                        !validateDaysValue(
-                          activeIMV?.accounts_payable_days_costs_of_sales
-                        )
-                      }
-                      helperText={
-                        !validateDaysValue(
-                          activeIMV?.accounts_payable_days_costs_of_sales
-                        )
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="interest_rate_on_operating_line"
-                      label="Interest Rate On Operating Line"
-                      title="Interest Rate On Operating Line"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.interest_rate_on_operating_line}
-                      onChange={handleInputChange}
-                      error={
-                        !validatePercentageValue(
-                          activeIMV?.interest_rate_on_operating_line
-                        )
-                      }
-                      helperText={
-                        !validatePercentageValue(
-                          activeIMV?.interest_rate_on_operating_line
-                        )
-                          ? "Value must be between 0 and 100"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="accounts_receivable_days"
-                      label="Accounts Receivable Days"
-                      title="Accounts Receivable Days"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.accounts_receivable_days}
-                      onChange={handleInputChange}
-                      error={
-                        !validateDaysValue(activeIMV?.accounts_receivable_days)
-                      }
-                      helperText={
-                        !validateDaysValue(activeIMV?.accounts_receivable_days)
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="accounts_receivable_days_others"
-                      label="Accounts Receivable Days Others"
-                      title="Accounts Receivable Days Others"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.accounts_receivable_days_others}
-                      onChange={handleInputChange}
-                      error={
-                        !validateDaysValue(
-                          activeIMV?.accounts_receivable_days_others
-                        )
-                      }
-                      helperText={
-                        !validateDaysValue(
-                          activeIMV?.accounts_receivable_days_others
-                        )
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="accounts_payable_days_others"
-                      label="Accounts Payable Days Others"
-                      title="Accounts Payable Days Other"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.accounts_payable_days_others}
-                      onChange={handleInputChange}
-                      error={
-                        !validateDaysValue(
-                          activeIMV?.accounts_payable_days_others
-                        )
-                      }
-                      helperText={
-                        !validateDaysValue(
-                          activeIMV?.accounts_payable_days_others
-                        )
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <TextField
-                      type="number"
-                      id="cash_conversion_cycle"
-                      disabled
-                      label="Cash Conversion Cycle"
-                      title="Cash Conversion Cycle"
-                      variant="standard"
-                      size="small"
-                      value={activeIMV?.cash_conversion_cycle}
-                      onChange={handleInputChange}
-                      error={
-                        !validateDaysValue(activeIMV?.cash_conversion_cycle)
-                      }
-                      helperText={
-                        !validateDaysValue(activeIMV?.cash_conversion_cycle)
-                          ? "Value must be between 1 and 90"
-                          : ""
-                      }
-                    ></TextField>
-                  </Grid>
-                  <Grid item xs={6} md={2}>
-                    <Button
-                      id="saveConfig"
-                      variant="contained"
-                      onClick={handleSaveClick}
-                    >
-                      Save
-                    </Button>
-                  </Grid>
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className="plv2_grid">
-              {rowsToRender && columns && modelDateRange.length && (
-                <ReactGrid
-                  rows={rowsToRender}
-                  columns={columns}
-                  stickyLeftColumns={1}
-                  stickyTopRows={1}
-                  // enableRowSelection={true}
-                  enableFillHandle
-                  // enableColumnSelection={true}
-                  enableRangeSelection={true}
-                  // enableCellsSelection={true}
-
-                  onCellsChanged={handleChanges}
-                  enableFullWidthHeader={true}
-                  onSelectionChanged={handleCellsSelection}
-                />
-              )}
-            </div>
-          </Grid>
-
-          {count > 1 && (
+          <Grid container spacing={2} justifyContent="flex-end">
             <Grid item xs={12}>
-              <div
-                style={{
-                  // height: "30px",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "15px",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  position: "fixed",
-                  bottom: 10,
-                  right: 30,
-                  padding: "10px",
-                  background: "white",
-                  border: "1px solid #e3d2d2",
-                  fontSize: " 12px",
-                  fontWeight: "600",
-                }}
-              >
-                <div>Sum: {commaSeperator(sum)}</div>
-                <div>Avg: {commaSeperator(Math.round(average))}</div>
-                <div>Count: {commaSeperator(count)}</div>
-                <div>Min: {commaSeperator(minValue)}</div>
-                <div>Max: {commaSeperator(maxValue)}</div>
+              <Accordion>
+                <AccordionSummary
+                  id="panel1-header"
+                  expandIcon={<GridExpandMoreIcon></GridExpandMoreIcon>}
+                >
+                  Configuration variables
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="income_tax_rate"
+                        label="Income Tax Rate"
+                        title="Income Tax Rate"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.income_tax_rate}
+                        onChange={handleInputChange}
+                        error={
+                          !validatePercentageValue(activeIMV?.income_tax_rate)
+                        }
+                        helperText={
+                          !validatePercentageValue(activeIMV?.income_tax_rate)
+                            ? "Value must be between 0 and 100"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="interest_rate_on_deposits"
+                        label="Interest Rate On Deposits"
+                        title="Interest Rate On Deposits"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.interest_rate_on_deposits}
+                        onChange={handleInputChange}
+                        error={
+                          !validatePercentageValue(
+                            activeIMV?.interest_rate_on_deposits
+                          )
+                        }
+                        helperText={
+                          !validatePercentageValue(
+                            activeIMV?.interest_rate_on_deposits
+                          )
+                            ? "Value must be between 0 and 100"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="inventory_days"
+                        label="Inventory Days"
+                        title="Inventory Days"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.inventory_days}
+                        onChange={handleInputChange}
+                        error={!validateDaysValue(activeIMV?.inventory_days)}
+                        helperText={
+                          !validateDaysValue(activeIMV?.inventory_days)
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="accounts_payable_days_costs_of_sales"
+                        label="Accounts Payable Days CoS"
+                        title="Accounts Payable Days Cost of sales"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.accounts_payable_days_costs_of_sales}
+                        onChange={handleInputChange}
+                        error={
+                          !validateDaysValue(
+                            activeIMV?.accounts_payable_days_costs_of_sales
+                          )
+                        }
+                        helperText={
+                          !validateDaysValue(
+                            activeIMV?.accounts_payable_days_costs_of_sales
+                          )
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="interest_rate_on_operating_line"
+                        label="Interest Rate On Operating Line"
+                        title="Interest Rate On Operating Line"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.interest_rate_on_operating_line}
+                        onChange={handleInputChange}
+                        error={
+                          !validatePercentageValue(
+                            activeIMV?.interest_rate_on_operating_line
+                          )
+                        }
+                        helperText={
+                          !validatePercentageValue(
+                            activeIMV?.interest_rate_on_operating_line
+                          )
+                            ? "Value must be between 0 and 100"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="accounts_receivable_days"
+                        label="Accounts Receivable Days"
+                        title="Accounts Receivable Days"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.accounts_receivable_days}
+                        onChange={handleInputChange}
+                        error={
+                          !validateDaysValue(
+                            activeIMV?.accounts_receivable_days
+                          )
+                        }
+                        helperText={
+                          !validateDaysValue(
+                            activeIMV?.accounts_receivable_days
+                          )
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="accounts_receivable_days_others"
+                        label="Accounts Receivable Days Others"
+                        title="Accounts Receivable Days Others"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.accounts_receivable_days_others}
+                        onChange={handleInputChange}
+                        error={
+                          !validateDaysValue(
+                            activeIMV?.accounts_receivable_days_others
+                          )
+                        }
+                        helperText={
+                          !validateDaysValue(
+                            activeIMV?.accounts_receivable_days_others
+                          )
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="accounts_payable_days_others"
+                        label="Accounts Payable Days Others"
+                        title="Accounts Payable Days Other"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.accounts_payable_days_others}
+                        onChange={handleInputChange}
+                        error={
+                          !validateDaysValue(
+                            activeIMV?.accounts_payable_days_others
+                          )
+                        }
+                        helperText={
+                          !validateDaysValue(
+                            activeIMV?.accounts_payable_days_others
+                          )
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <TextField
+                        type="number"
+                        id="cash_conversion_cycle"
+                        disabled
+                        label="Cash Conversion Cycle"
+                        title="Cash Conversion Cycle"
+                        variant="standard"
+                        size="small"
+                        value={activeIMV?.cash_conversion_cycle}
+                        onChange={handleInputChange}
+                        error={
+                          !validateDaysValue(activeIMV?.cash_conversion_cycle)
+                        }
+                        helperText={
+                          !validateDaysValue(activeIMV?.cash_conversion_cycle)
+                            ? "Value must be between 1 and 90"
+                            : ""
+                        }
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      <Button
+                        id="saveConfig"
+                        variant="contained"
+                        onClick={handleSaveClick}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+
+            <Grid item xs={12}>
+              <div className="plv2_grid">
+                {rowsToRender && columns && modelDateRange.length && (
+                  <ReactGrid
+                    rows={rowsToRender}
+                    columns={columns}
+                    stickyLeftColumns={1}
+                    stickyTopRows={1}
+                    // enableRowSelection={true}
+                    enableFillHandle
+                    // enableColumnSelection={true}
+                    enableRangeSelection={true}
+                    // enableCellsSelection={true}
+
+                    onCellsChanged={handleChanges}
+                    enableFullWidthHeader={true}
+                    onSelectionChanged={handleCellsSelection}
+                  />
+                )}
               </div>
             </Grid>
-          )}
-        </Grid>
+
+            {count > 1 && (
+              <Grid item xs={12}>
+                <div
+                  style={{
+                    // height: "30px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "15px",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    position: "fixed",
+                    bottom: 10,
+                    right: 30,
+                    padding: "10px",
+                    background: "white",
+                    border: "1px solid #e3d2d2",
+                    fontSize: " 12px",
+                    fontWeight: "600",
+                  }}
+                >
+                  <div>Sum: {commaSeperator(sum)}</div>
+                  <div>Avg: {commaSeperator(Math.round(average))}</div>
+                  <div>Count: {commaSeperator(count)}</div>
+                  <div>Min: {commaSeperator(minValue)}</div>
+                  <div>Max: {commaSeperator(maxValue)}</div>
+                </div>
+              </Grid>
+            )}
+          </Grid>
+        </div>
       </div>
-      </div>
-     
     </React.Fragment>
   );
 }
