@@ -38,11 +38,7 @@ class SidebarMenu extends Component {
       <ul className="nav nav-sidebar">
         {menuData.map((menuItem, key) => {
           const submenuItems = menuItem.submenu?.map((submenuItem, subKey) => (
-            <Link
-              href={submenuItem.link}
-              className="nav-sub-link"
-              key={subKey}
-            >
+            <Link href={submenuItem.link} className="nav-sub-link" key={subKey}>
               {submenuItem.label}
             </Link>
           ));
@@ -106,9 +102,78 @@ class SidebarMenu extends Component {
         link: `/entities/${id}/dashboard`,
         icon: "ri-pie-chart-2-line",
       },
-      // Add other menu items...
+      {
+        label: "Integrated Model",
+        link: `/entities/${id}/im`,
+        icon: "ri-calendar-todo-line",
+      },
+      {
+        label: "Backlog",
+        link: `/entities/${id}/backlog`,
+        icon: "ri-shopping-bag-3-line",
+      },
+      {
+        label: "Frontlog",
+        link: `/entities/${id}/frontlog`,
+        icon: "ri-bar-chart-2-line",
+      },
+      {
+        label: "Ledgers",
+        icon: "ri-coin-line",
+        submenu: [
+          {
+            label: "Prepaid Expenses",
+            link: `/entities/${id}/ledgers/prepaid-expense`,
+          },
+          {
+            label: "Term Debts",
+            link: `/entities/${id}/ledgers/term-debt`,
+          },
+          {
+            label: "Fixed Assets",
+            link: `/entities/${id}/ledgers/fixed-assets`,
+          },
+          {
+            label: "Fixed Straight Line Pools",
+            link: `/entities/${id}/ledgers/fixed-asset-pools/straight-line`,
+          },
+          {
+            label: "Fixed Declining Balance Pools",
+            link: `/entities/${id}/ledgers/fixed-asset-pools/declining`,
+          },
+        ],
+      },
+      {
+        label: "Cash Disbursements",
+        link: `/entities/${id}/cash-disbursement`,
+        icon: "ri-service-line",
+      },
+      {
+        label: "Cash Reciepts",
+        link: `/entities/${id}/cash-receipt`,
+        icon: "ri-hard-drive-2-line",
+      },
+      {
+        label: "Accounts Payable Others",
+        link: `/entities/${id}/account-payable-others`,
+        icon: "ri-suitcase-2-line",
+      },
+      {
+        label: "Accounts Receivables Others",
+        link: `/entities/${id}/account-receivable-others`,
+        icon: "ri-suitcase-2-line",
+      },
+      {
+        label: "Chart of Accounts",
+        link: `/entities/${id}/chart-of-accounts`,
+        icon: "ri-suitcase-2-line",
+      },
+      {
+        label: "Opening Balances",
+        link: `/entities/${id}/opening-balance`,
+        icon: "ri-suitcase-2-line",
+      },
     ];
-
     return (
       <React.Fragment>
         {location.pathname === "/entities" ? (
@@ -133,7 +198,14 @@ class SidebarMenu extends Component {
 
 // Sidebar with router props
 const SidebarWithLocation = (props) => {
-  return <Sidebar {...props} location={typeof window !== 'undefined' ? window.location : { pathname: '' }} />;
+  return (
+    <Sidebar
+      {...props}
+      location={
+        typeof window !== "undefined" ? window.location : { pathname: "" }
+      }
+    />
+  );
 };
 
 export default SidebarWithLocation;
