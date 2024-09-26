@@ -1,0 +1,66 @@
+// ** React Imports
+import * as React from "react";
+
+// ** MUI Imports
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+// ** Icon Imports
+import Icon from "../../../components/icon";
+
+const Toolbar = (props) => {
+  return (
+    <Box
+      sx={{
+        gap: 2,
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "space-between",
+        p: (theme) => theme.spacing(2, 5, 4, 5),
+      }}
+    >
+      <TextField
+        size="small"
+        style={{ marginLeft: "-40px" }}
+        value={props.value}
+        onChange={props.onChange}
+        onKeyDown={props.onKeyDown}
+        placeholder="Search…"
+        InputProps={{
+          startAdornment: (
+            <Box sx={{ mr: 2, display: "flex" }}>
+              <Icon icon="mdi:magnify" fontSize={20} />
+            </Box>
+          ),
+          endAdornment: (
+            <IconButton
+              size="small"
+              title="Clear"
+              aria-label="Clear"
+              onClick={props.clearSearch}
+            >
+              <Icon icon="mdi:close" fontSize={20} />
+            </IconButton>
+          ),
+        }}
+        sx={{
+          width: {
+            xs: 1,
+            sm: "auto",
+          },
+          "& .MuiInputBase-root > svg": {
+            mr: 2,
+          },
+        }}
+      />
+      <ButtonGroup size="medium">
+        <Button onClick={props.onCreateNew}>+ Add</Button>
+      </ButtonGroup>
+    </Box>
+  );
+};
+
+export default Toolbar;
