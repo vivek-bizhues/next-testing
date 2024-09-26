@@ -1,7 +1,12 @@
+import Entities from "@/plv/Entities";
 import React from "react";
 
 const entities = () => {
-  return <div>Entitiesss</div>;
+  return (
+    <div>
+      <Entities />
+    </div>
+  );
 };
 
 export default entities;
