@@ -32,7 +32,7 @@ export default function Entities() {
   useEffect(() => {
     const profile = localStorage.getItem("userProfile");
     const token = localStorage.getItem("authToken");
-    
+
     // Check if profile and token are available
     if (!profile || !token) {
       logout();
@@ -83,7 +83,6 @@ export default function Entities() {
 
   return (
     <React.Fragment>
-      <Header />
       <div className="main main-app p-3 p-lg-4">
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>

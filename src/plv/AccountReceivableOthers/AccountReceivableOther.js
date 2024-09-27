@@ -308,7 +308,6 @@ export default function AccountReceivableOthers() {
 
   return (
     <React.Fragment>
-      <Header />
       <div
         className="plv2_rg"
         onKeyDown={(e) => {

@@ -301,7 +301,6 @@ export default function CashDisbursement() {
 
   return (
     <React.Fragment>
-      <Header />
       <div
         className="plv2_rg"
         onKeyDown={(e) => {

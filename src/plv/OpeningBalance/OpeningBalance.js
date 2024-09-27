@@ -178,7 +178,6 @@ export default function OpeningBalance() {
 
   return (
     <React.Fragment>
-      <Header />
       <div className="main main-app p-3 p-lg-4" onKeyDown={handleKeyDown}>
         <div className="d-md-flex align-items-center justify-content-between mb-4">
           <div>

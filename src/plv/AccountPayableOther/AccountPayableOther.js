@@ -311,7 +311,6 @@ export default function AccountPayableOthers() {
   };
   return (
     <React.Fragment>
-      <Header />
       <div
         className="plv2_rg"
         onKeyDown={(e) => {
