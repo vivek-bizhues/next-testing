@@ -30,6 +30,7 @@ import Header from "../../../layouts/Header";
 import CRUDDecliningFixedAssets from "./components/createDecliningFixedAsset";
 import FixedAssetDecliningBalancePoolsLedgerView from "./components/transactions";
 import FixedAssetDecliningBalancePoolsTotalLedgerView from "./components/transactionsTotal";
+import { useRouter } from "next/router";
 // import FixedAssetDecliningBalancePoolsTotalLedgerView from "./components/transactionsTotal";
 // import FixedAssetDecliningBalancePoolsLedgerView from "./components/transactions";
 // import { useAuth } from "src/hooks/useAuth";
@@ -56,6 +57,7 @@ export default function DecliningFixedAssets() {
   const [selectedPoolName, setselectedPoolName] = useState("");
   const [poolStartDate, setPoolStartDate] = useState(new Date());
   const [loading, setLoading] = React.useState(true);
+  const router = useRouter();
 
   const initialDialogState = {
     open: false,
@@ -231,7 +233,7 @@ export default function DecliningFixedAssets() {
     };
 
     fetchData();
-  }, [dispatch, sort, sortColumn, pageSize, currentPage]);
+  }, [dispatch, sort, sortColumn, pageSize, currentPage, router.query.slug]);
 
   useEffect(() => {
     const coaOptionsList = [];

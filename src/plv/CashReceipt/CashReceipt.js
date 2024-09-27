@@ -21,6 +21,7 @@ import {
   updateCashReceiptData,
 } from "../../store/plv2/cashReceipt";
 import ReactLoaderRound from "../../components/ReactLoader/ReactLoader";
+import { useRouter } from "next/router";
 
 export default function CashReceipt() {
   const dispatch = useDispatch();
@@ -29,6 +30,10 @@ export default function CashReceipt() {
   const [loading, setLoading] = useState(true);
   const [modelDateRange, setModelDateRange] = useState([]);
   const [modelDateRangeFormatted, setModelDateRangeFormatted] = useState([]);
+  const [cashReceiptData, setCashReceiptData] = useState(cashReceiptStore.data);
+  const [cellChanges, setCellChanges] = useState([]);
+  const [cellChangesIndex, setCellChangesIndex] = useState(-1);
+  const router = useRouter();
 
   useEffect(() => {
     if (activeEntity && activeEntity.start_date && activeEntity.end_date) {
@@ -57,10 +62,6 @@ export default function CashReceipt() {
       }
     }
   }, [activeEntity, modelDateRange, modelDateRangeFormatted]);
-
-  const [cashReceiptData, setCashReceiptData] = useState(cashReceiptStore.data);
-  const [cellChanges, setCellChanges] = useState([]);
-  const [cellChangesIndex, setCellChangesIndex] = useState(-1);
 
   const getColumns = () => {
     const columns = [];
@@ -204,7 +205,7 @@ export default function CashReceipt() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   useEffect(() => {
     setCashReceiptData(cashReceiptStore.data);

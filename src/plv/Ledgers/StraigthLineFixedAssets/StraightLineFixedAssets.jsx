@@ -28,6 +28,7 @@ import { formatDate, parseDate } from "../../../utils/get-daterange";
 import Toolbar from "./components/toolbar";
 import FixedAssetStraightLinePoolsLedgerView from "./components/transactions";
 import FixedAssetStraightLineBalancePoolsTotalLedgerView from "./components/transactionsTotal";
+import { useRouter } from "next/router";
 // import FixedAssetStraightLineBalancePoolsTotalLedgerView from "./components/transactionsTotal";
 // import FixedAssetStraightLinePoolsLedgerView from "./components/transactions";
 
@@ -52,6 +53,7 @@ export default function StraightLineFixedAssets() {
   const [selectedPoolId, setSelectedPoolId] = useState(0);
   const [selectedPoolName, setselectedPoolName] = useState("");
   const [ledgerviewLoading, setLedgerviewLoading] = useState(false);
+  const router = useRouter();
 
   const [poolStartDate, setPoolStartDate] = useState(new Date());
   const initialDialogState = {
@@ -238,7 +240,7 @@ export default function StraightLineFixedAssets() {
     };
 
     fetchData();
-  }, [dispatch, sort, sortColumn, pageSize, currentPage]);
+  }, [dispatch, sort, sortColumn, pageSize, currentPage, router.query.slug]);
 
   useEffect(() => {
     const coaOptionsList = [];

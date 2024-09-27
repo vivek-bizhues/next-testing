@@ -21,6 +21,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function PrepaidExpenseLedger() {
   const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -63,7 +64,7 @@ export default function PrepaidExpenseLedger() {
   };
 
   const [newRecord, setNewRecord] = useState(initialDialogState);
-  //   const router = useRouter();
+    const router = useRouter();
 
   const prepaidExpenseStore = useSelector((state) => state.prepaidExpenses);
 
@@ -95,7 +96,7 @@ export default function PrepaidExpenseLedger() {
   };
   useEffect(() => {
     fetchData();
-  }, [dispatch, sort, sortColumn, pageSize, currentPage]);
+  }, [dispatch, sort, sortColumn, pageSize, currentPage, router.query.slug]);
 
   useEffect(() => {
     const coaOptionsList = [];

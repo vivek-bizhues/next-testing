@@ -21,6 +21,7 @@ import {
   fetchAccountPayableOtherData,
   updateAccountPayableOtherData,
 } from "../../store/plv2/accountPayableData";
+import { useRouter } from "next/router";
 
 export default function AccountPayableOthers() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function AccountPayableOthers() {
 
   const [cellChanges, setCellChanges] = useState([]);
   const [cellChangesIndex, setCellChangesIndex] = useState(-1);
+  const router = useRouter()
 
   useEffect(() => {
     if (activeEntity && activeEntity.start_date && activeEntity.end_date) {
@@ -208,7 +210,7 @@ export default function AccountPayableOthers() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   React.useEffect(() => {
     setPayableData(accountPayableSTore.data);

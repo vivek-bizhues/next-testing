@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import Loader from "../../../components/Loader/Loader";
+import { useRouter } from "next/router";
 
 const FrontlogGrid = ({ searchValue }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const FrontlogGrid = ({ searchValue }) => {
   const [includeArchives, setIncludeArchives] = useState(false);
   const [onlyArchives, setOnlyArchives] = useState(false);
   const [filter, setFilter] = useState("active"); // Set default filter to 'active'
+  const router = useRouter();
 
   useEffect(() => {
     const savedFilter = localStorage.getItem("frontlogFilter");
@@ -52,7 +54,7 @@ const FrontlogGrid = ({ searchValue }) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch, searchValue, includeArchives, onlyArchives]);
+  }, [dispatch, searchValue, includeArchives, onlyArchives, router.query.slug]);
 
   const handleIncludeArchivesChange = (event) => {
     setIncludeArchives(event.target.checked);

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { fetchBacklogData } from "../../../store/plv2/backlogFrontlog/backlog";
 import Loader from "../../../components/Loader/Loader";
+import { useRouter } from "next/router";
 
 const BacklogGrid = ({ searchValue }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const BacklogGrid = ({ searchValue }) => {
   const [includeArchives, setIncludeArchives] = useState(false);
   const [onlyArchives, setOnlyArchives] = useState(false);
   const [filter, setFilter] = useState(""); // Initialize as an empty string
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -61,7 +63,14 @@ const BacklogGrid = ({ searchValue }) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch, searchValue, includeArchives, onlyArchives, filter]);
+  }, [
+    dispatch,
+    searchValue,
+    includeArchives,
+    onlyArchives,
+    filter,
+    router.query.slug,
+  ]);
 
   const handleIncludeArchivesChange = (event) => {
     setIncludeArchives(event.target.checked);

@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import FixedAssetsLedgerView from "./components/transactions";
 import Toolbar from "./components/toolbar";
+import { useRouter } from "next/router";
 
 export default function FixedAssets() {
   const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -276,6 +277,8 @@ export default function FixedAssets() {
     (state) => state.fixedAssetTransactionsTotal
   );
 
+  const router = useRouter();
+
   const chartOfAccountsData = useSelector((state) => state.coa);
   const dispatch = useDispatch();
   //   const router = useRouter();
@@ -304,7 +307,7 @@ export default function FixedAssets() {
     };
 
     fetchData();
-  }, [dispatch, sort, sortColumn, pageSize, currentPage]);
+  }, [dispatch, sort, sortColumn, pageSize, currentPage, router.query.slug]);
 
   useEffect(() => {
     const coaOptionsList = [];

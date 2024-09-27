@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import TermDebtLedgerView from "./components/transactions";
+import { useRouter } from "next/router";
 
 export default function TermDebtGrid() {
   const monthOptions = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -48,6 +49,7 @@ export default function TermDebtGrid() {
   const [openLedgerView, setOpenLedgerView] = useState(false);
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [selectedRecord, setselectedRecord] = useState();
+  const router = useRouter();
 
   const initialDialogState = {
     open: false,
@@ -111,7 +113,7 @@ export default function TermDebtGrid() {
       }
     };
     fetchData();
-  }, [dispatch, sort, sortColumn, currentPage, pageSize]);
+  }, [dispatch, sort, sortColumn, currentPage, pageSize, router.query.slug]);
 
   useEffect(() => {
     if (termDebtStore.data) {

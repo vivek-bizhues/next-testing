@@ -34,6 +34,7 @@ import { GridExpandMoreIcon } from "@mui/x-data-grid";
 import { ReactGrid } from "@silevis/reactgrid";
 import ReactLoaderRound from "../../components/ReactLoader/ReactLoader";
 import Loader from "@/components/Loader/Loader";
+import { useRouter } from "next/router";
 
 export default function IM() {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ export default function IM() {
   const [count, setCount] = useState(0);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(0);
-
+  const router = useRouter();
   const modelStructure = useSelector((state) => state.imTemplate);
 
   const [activeIMV, setActiveIMV] = useState(active_imv);
@@ -74,7 +75,7 @@ export default function IM() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   // Effect to update dates based on active entity
   useEffect(() => {

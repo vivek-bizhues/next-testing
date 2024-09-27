@@ -12,6 +12,8 @@ import { fetchImTemplate } from "../../store/plv2/imTemplate";
 import { Box, Button, Typography } from "@mui/material";
 import AddDashboardChart from "./components/AddDashboardChart";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+
 const ApexBarChartTemplate = dynamic(
   () => import("./charts/ApexBarChartTemplate"),
   { ssr: false }
@@ -45,9 +47,8 @@ export default function Dashboard() {
     (state) => state.dashboardChartSlice.data
   );
 
-  // const store = useSelector((state) => state);
   // const { logout } = useAuth();
-  // const router = useRouter();
+  const router = useRouter();
 
   const prepareModelStructure = () => {
     const formulaNames = [];
@@ -81,7 +82,7 @@ export default function Dashboard() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   useEffect(() => {
     setLoading(true);
@@ -96,7 +97,7 @@ export default function Dashboard() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   useEffect(() => {
     const layoutConfigData = dashboardCharts?.map((chart) => ({

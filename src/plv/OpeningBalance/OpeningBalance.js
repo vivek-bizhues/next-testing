@@ -10,12 +10,14 @@ import {
 import { ReactGrid } from "@silevis/reactgrid";
 import { Grid } from "@mui/material";
 import "@silevis/reactgrid/styles.css";
+import { useRouter } from "next/router";
 
 export default function OpeningBalance() {
   const dispatch = useDispatch();
   const openingBalanceStore = useSelector((state) => state.openingBalance);
   const [cellChanges, setCellChanges] = useState([]);
   const [cellChangesIndex, setCellChangesIndex] = useState(-1);
+  const router = useRouter();
 
   const getOpeningBalance = () => {
     const data = [];
@@ -69,7 +71,7 @@ export default function OpeningBalance() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [dispatch]);
+  }, [dispatch, router.query.slug]);
 
   // Update row data when the store changes
   useEffect(() => {
