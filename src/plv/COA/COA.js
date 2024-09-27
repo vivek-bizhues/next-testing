@@ -19,6 +19,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 export default function ChartOfAccounts() {
   const initialDialogState = {
@@ -44,7 +45,9 @@ export default function ChartOfAccounts() {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = React.useState("");
-  // const router = useRouter();
+  const router = useRouter();
+
+  console.log(router.query,"sssssssssssssss")
 
   // console.log(pageSize, "pageeeeesize");
   // console.log(currentPage, "pageeeeeno");
@@ -70,7 +73,15 @@ export default function ChartOfAccounts() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch, sort, sortColumn, pageSize, currentPage, searchQuery]);
+  }, [
+    dispatch,
+    router.query.slug,
+    sort,
+    sortColumn,
+    pageSize,
+    currentPage,
+    searchQuery,
+  ]);
 
   React.useEffect(() => {
     setLoading(true);
@@ -85,7 +96,7 @@ export default function ChartOfAccounts() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [dispatch, sort, sortColumn, pageSize, currentPage]);
+  }, [dispatch, router.query.slug, sort, sortColumn, pageSize, currentPage]);
 
   useEffect(() => {
     const _coa_category_list = [];
