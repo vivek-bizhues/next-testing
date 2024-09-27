@@ -110,7 +110,7 @@ const ApexAreaChartTemplate = ({
       tickAmount: 5,
     },
     stroke: {
-      curve: "straight",
+      curve: "smooth",
       width: 2,
     },
     fill: {

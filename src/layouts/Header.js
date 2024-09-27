@@ -1,13 +1,22 @@
-import React, { forwardRef, useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Dropdown from "react-bootstrap/Dropdown";
 import Image from "next/image";
 import { UserContext } from "../context/UserContext";
+import { getCurrentEntityIMVs } from "@/helpers/entitiyHelpers";
+import IMScenariosDropDown from "@/components/scenarios/IMScenarios";
 
 export default function Header() {
   const router = useRouter();
   const { logout } = useContext(UserContext);
+  const Imvs = getCurrentEntityIMVs();
 
   const [profile, setProfile] = useState(null);
   const [token, setToken] = useState(null);
@@ -79,6 +88,8 @@ export default function Header() {
         <i className="ri-search-line"></i>
       </div>
 
+      <IMScenariosDropDown scenarios={Imvs} />
+
       <Dropdown className="dropdown-profile ms-3 ms-xl-4" align="end">
         <Dropdown.Toggle as={CustomToggle}>
           <div className="avatar online">
@@ -97,7 +108,9 @@ export default function Header() {
           <div className="dropdown-menu-body">
             <div className="avatar avatar-xl online mb-3">
               <Image
-                src={"https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg"}
+                src={
+                  "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg"
+                }
                 alt="User Avatar"
                 width={80}
                 height={80}
