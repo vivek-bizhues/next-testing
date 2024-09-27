@@ -47,8 +47,6 @@ export default function ChartOfAccounts() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const router = useRouter();
 
-  console.log(router.query,"sssssssssssssss")
-
   // console.log(pageSize, "pageeeeesize");
   // console.log(currentPage, "pageeeeeno");
 

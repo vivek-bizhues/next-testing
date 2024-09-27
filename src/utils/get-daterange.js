@@ -15,7 +15,7 @@ export const getDateRange = (startDate, endDate) => {
 };
 
 export const parseDate = (date) => {
-  console.log(date,"dateaeeeeeeeeeeeee")
+  // console.log(date,"dateaeeeeeeeeeeeee")
   const parts = date.split("-"); // Split the string into parts
   // Note: Months are 0-indexed in JavaScript: 0 for January, 11 for December
   const year = parseInt(parts[0], 10);

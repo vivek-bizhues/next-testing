@@ -149,7 +149,7 @@ const ApexLineChartTemplate = ({
     colors: transformedSeries.map((series) => series.color),
   };
 
-  console.log(transformedSeries, "transformedddddddddddd");
+  // console.log(transformedSeries, "transformedddddddddddd");
 
   return (
     <>

@@ -129,6 +129,7 @@ const BacklogGrid = ({ searchValue }) => {
             if (noTransactions) {
               return (
                 <Box
+                  key="100"
                   display="flex"
                   justifyContent="center"
                   alignItems="center"

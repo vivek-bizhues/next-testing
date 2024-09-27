@@ -33,6 +33,7 @@ import {
 import { GridExpandMoreIcon } from "@mui/x-data-grid";
 import { ReactGrid } from "@silevis/reactgrid";
 import ReactLoaderRound from "../../components/ReactLoader/ReactLoader";
+import Loader from "@/components/Loader/Loader";
 
 export default function IM() {
   const dispatch = useDispatch();
@@ -42,26 +43,30 @@ export default function IM() {
   const active_imv = imvs?.find(
     (imv) => imv.id === activeEntity?.active_im_version
   );
+
   const [average, setAverage] = useState(0);
   const [sum, setSum] = useState(0);
   const [count, setCount] = useState(0);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(0);
+
   const modelStructure = useSelector((state) => state.imTemplate);
 
   const [activeIMV, setActiveIMV] = useState(active_imv);
+
+  // Initialize dates as null
   const [dates, setDates] = useState({ startDate: null, endDate: null });
 
+  // State for model date range
+  const [modelDateRange, setModelDateRange] = useState(null);
 
-  // const { logout } = useAuth();
-  // const router = useRouter();
-
+  // Fetching IM Template
   useEffect(() => {
     setLoading(true);
     dispatch(fetchImTemplate())
       .then((res) => {
         setLoading(false);
-        if (res?.error?.message === 401) {
+        if (res?.error?.message === "401") {
           // logout();
         }
       })
@@ -71,30 +76,36 @@ export default function IM() {
       });
   }, [dispatch]);
 
+  // Effect to update dates based on active entity
   useEffect(() => {
     if (activeEntity) {
-        const startDate = parseDate(activeEntity.start_date);
-        const endDate = parseDate(activeEntity.end_date);
+      const startDate = parseDate(activeEntity.start_date);
+      const endDate = parseDate(activeEntity.end_date);
+
+      // Only update dates if they have changed
+      if (startDate !== dates.startDate || endDate !== dates.endDate) {
         setDates({ startDate, endDate });
+      }
     }
-}, [activeEntity]);
+    // Dependency array should only include activeEntity
+    // to avoid unnecessary re-renders
+  }, [activeIMV]);
 
+  // Effect to calculate model date range when dates change
+  useEffect(() => {
+    if (dates.startDate && dates.endDate) {
+      const dateRange = getDateRangeInMonths(
+        dates.startDate,
+        dates.endDate,
+        "yyyy-MM-01"
+      );
+      setModelDateRange(dateRange);
+    }
+  }, [dates]);
+
+  // Other states and logic remain unchanged...
   const ROW_HEIGHT = 32;
-
-  // const startDate = activeEntity?.start_date;
-  // const endDate = activeEntity?.end_date;
-
-  // const modifiedStartDate = parseDate(startDate);
-  // const modifiedEndDate = parseDate(endDate);
-
-  const modelDateRange = getDateRangeInMonths(
-    dates.startDate,
-    dates.endDate,
-    "yyyy-MM-01"
-);
-
   const [rows, setRows] = useState([]);
-
   const [columns, setColumns] = useState([]);
   const [rowsToRender, setRowsToRender] = useState([]);
   const [cellCssStyles, setCellCssStyles] = useState();
@@ -111,7 +122,7 @@ export default function IM() {
         "section-title " + section?.__attrs.tech_name.toString()
       )
     );
-    modelDateRange.forEach((d) => {
+    modelDateRange?.forEach((d) => {
       if (d) {
         rowCellsList.push(
           textCell(
@@ -136,7 +147,7 @@ export default function IM() {
         "group-title " + sectionTechname + " " + group.__attrs.tech_name
       )
     );
-    modelDateRange.forEach((d) => {
+    modelDateRange?.forEach((d) => {
       if (d) {
         rowCellsList.push(
           headerCell(
@@ -167,7 +178,7 @@ export default function IM() {
     );
 
     if ("data" in formula) {
-      modelDateRange.forEach((d) => {
+      modelDateRange?.forEach((d) => {
         if (d) {
           if (formula.type === "PERCENTAGE") {
             rowCellsList.push(
@@ -213,7 +224,7 @@ export default function IM() {
 
     let previousYear = null;
 
-    modelDateRange.forEach((d) => {
+    modelDateRange?.forEach((d) => {
       if (d) {
         const currentYear = new Date(d).getFullYear();
         if (currentYear !== previousYear && previousYear !== null) {
@@ -492,26 +503,26 @@ export default function IM() {
     let totalColumns = 0;
     let totalRows = 0;
 
-    selections.forEach((selection) => {
-      const selectedColumns = selection.columns.map((column) => column.idx); // Extract column indices
+    selections?.forEach((selection) => {
+      const selectedColumns = selection?.columns?.map((column) => column?.idx); // Extract column indices
 
-      selection.rows.forEach((row) => {
-        const rowIndex = row.idx; // Use the index directly from the selection
-        selectedColumns.forEach((colIdx) => {
+      selection?.rows?.forEach((row) => {
+        const rowIndex = row?.idx; // Use the index directly from the selection
+        selectedColumns?.forEach((colIdx) => {
           // Iterate over the selected column indices
-          const cell = rows[rowIndex].cells[colIdx];
-          if (cell && cell.value) {
-            selectedCells.push(Math.round(cell.value)); // Round off the value
+          const cell = rows[rowIndex]?.cells[colIdx];
+          if (cell && cell?.value) {
+            selectedCells?.push(Math.round(cell?.value)); // Round off the value
           }
         });
       });
 
-      totalColumns += selection.columns.length;
-      totalRows += selection.rows.length;
+      totalColumns += selection?.columns?.length;
+      totalRows += selection?.rows?.length;
     });
 
-    const sum = selectedCells.reduce((acc, value) => acc + value, 0);
-    const count = selectedCells.length;
+    const sum = selectedCells?.reduce((acc, value) => acc + value, 0);
+    const count = selectedCells?.length;
     const average = count === 0 ? 0 : sum / count;
 
     setSum(sum);
@@ -774,7 +785,9 @@ export default function IM() {
 
             <Grid item xs={12}>
               <div className="plv2_grid">
-                {rowsToRender && columns && modelDateRange.length && (
+                {loading ? (
+                  <Loader title={"Loading"} />
+                ) : (
                   <ReactGrid
                     rows={rowsToRender}
                     columns={columns}

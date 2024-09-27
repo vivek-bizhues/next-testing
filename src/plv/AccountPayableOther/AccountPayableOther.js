@@ -217,7 +217,7 @@ export default function AccountPayableOthers() {
   // @TODO: need improvement on this logic
   const applyChangesToPayableData = (changes, prevAP) => {
     const updatedAP = JSON.parse(JSON.stringify(prevAP)); // Deep copy of prevAP
-    console.log(updatedAP, "UpdatedAP");
+    // console.log(updatedAP, "UpdatedAP");
 
     changes.forEach((change) => {
       const obIndex = updatedAP.findIndex(
@@ -239,9 +239,9 @@ export default function AccountPayableOthers() {
 
   const handleChanges = (changes) => {
     setPayableData((prevData) => {
-      console.log(prevData, "prevdata");
+      // console.log(prevData, "prevdata");
       const updatedData = applyChangesToPayableData(changes, prevData);
-      console.log(updatedData, "Updated data");
+      // console.log(updatedData, "Updated data");
       setCellChanges((prevChanges) => [
         ...prevChanges.slice(0, cellChangesIndex + 1),
         changes,
@@ -250,7 +250,7 @@ export default function AccountPayableOthers() {
       setCellChangesIndex(cellChangesIndex + 1);
       return updatedData;
     });
-    console.log(changes, "changes");
+    // console.log(changes, "changes");
 
     const changesArray = changes.map((change) => ({
       coa: Number(change.rowId),
@@ -258,7 +258,7 @@ export default function AccountPayableOthers() {
       date: change.columnId,
     }));
 
-    console.log(changesArray, "array");
+    // console.log(changesArray, "array");
 
     dispatch(updateAccountPayableOtherData(changesArray));
   };
