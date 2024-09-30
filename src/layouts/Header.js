@@ -85,9 +85,8 @@ export default function Header() {
         <i className="ri-menu-2-fill"></i>
       </Link>
 
-      <div className="form-search me-auto">
-        <input type="text" className="form-control" placeholder="Search" />
-        <i className="ri-search-line"></i>
+      <div className="me-auto">
+        
       </div>
 
       {router.pathname !== "/entities" && (

@@ -11,8 +11,14 @@ const Loader = ({ title }) => {
         opacity: 0.5,
       }}
     >
-      {title}
-      {/* <PulseLoader color="#1976D2" size={10} /> */}
+      <div className="loader">
+        <div className="loader__bar"></div>
+        <div className="loader__bar"></div>
+        <div className="loader__bar"></div>
+        <div className="loader__bar"></div>
+        <div className="loader__bar"></div>
+        <div className="loader__ball"></div>
+      </div>
     </div>
   );
 };

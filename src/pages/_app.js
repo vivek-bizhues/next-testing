@@ -5,6 +5,7 @@ import "@/scss/style.scss";
 import { UserProvider } from "@/context/UserContext";
 import Layout from "@/layouts/Layout";
 import "@silevis/reactgrid/styles.css";
+import "@/styles/style.css";
 
 export default function App({ Component, pageProps }) {
   return (
