@@ -64,7 +64,7 @@ export default function PrepaidExpenseLedger() {
   };
 
   const [newRecord, setNewRecord] = useState(initialDialogState);
-    const router = useRouter();
+  const router = useRouter();
 
   const prepaidExpenseStore = useSelector((state) => state.prepaidExpenses);
 
@@ -89,7 +89,6 @@ export default function PrepaidExpenseLedger() {
       if (response?.error?.message === 401) {
         //   logout();
       } else {
-        console.log(response, "ressssssssssssssss");
       }
     } finally {
     }

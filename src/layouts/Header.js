@@ -77,6 +77,8 @@ export default function Header() {
     return null;
   }
 
+  console.log(router, "sssssssssss");
+
   return (
     <div className="header-main px-3 px-lg-4">
       <Link href="#" onClick={toggleSidebar} className="menu-link me-3 me-lg-4">
@@ -88,7 +90,9 @@ export default function Header() {
         <i className="ri-search-line"></i>
       </div>
 
-      <IMScenariosDropDown scenarios={Imvs} />
+      {router.pathname !== "/entities" && (
+        <IMScenariosDropDown scenarios={Imvs} />
+      )}
 
       <Dropdown className="dropdown-profile ms-3 ms-xl-4" align="end">
         <Dropdown.Toggle as={CustomToggle}>
