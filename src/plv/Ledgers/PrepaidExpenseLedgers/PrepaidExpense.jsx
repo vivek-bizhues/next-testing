@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../layouts/Header";
 import { useDispatch, useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -95,7 +94,14 @@ export default function PrepaidExpenseLedger() {
   };
   useEffect(() => {
     fetchData();
-  }, [dispatch, sort, sortColumn, pageSize, currentPage, router.query.slug]);
+  }, [
+    dispatch,
+    sort,
+    sortColumn,
+    pageSize,
+    currentPage,
+    router.query.slug,
+  ]);
 
   useEffect(() => {
     const coaOptionsList = [];
@@ -303,7 +309,7 @@ export default function PrepaidExpenseLedger() {
   }
 
   const handleSearch = (q) => {
-    setCurrentPage(0);
+    setCurrentPage(1);
     dispatch(
       fetchPrepaidExpenseData({
         sort: sort,
@@ -401,25 +407,28 @@ export default function PrepaidExpenseLedger() {
           ledgerviewLoading={ledgerviewLoading}
         />
 
-        <DataGrid
-          pagination
-          rows={rows}
-          columns={columns}
-          disableColumnMenu
-          pageSize={pageSize}
-          rowCount={total}
-          sortingMode="server"
-          paginationMode="server"
-          pageSizeOptions={[10, 25, 50]}
-          onSortModelChange={handleSortModel}
-          loading={prepaidExpenseStore.isLoading}
-          onPaginationModelChange={(paginationModel) => {
-            const { page, pageSize } = paginationModel;
-            setCurrentPage(page + 1);
-            setPageSize(pageSize);
-          }}
-          autoPageSize
-        />
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            autoHeight
+            pagination
+            rows={rows}
+            columns={columns}
+            disableColumnMenu={true}
+            pageSize={pageSize}
+            rowCount={total}
+            sortingMode="server"
+            paginationMode="server"
+            rowsPerPageOptions={[10, 25, 50]}
+            onSortModelChange={handleSortModel}
+            loading={prepaidExpenseStore.isLoading}
+            onPageChange={(newPage) => {
+              setCurrentPage(newPage + 1);
+            }}
+            onPageSizeChange={(newPageSize) => {
+              setPageSize(newPageSize);
+            }}
+          />
+        </div>
 
         {/* Create / Edit / Clone form component */}
         <CRUDPrepaidExpense

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../../layouts/Header";
-import { Button, Grid2, Icon, IconButton, TextField } from "@mui/material";
+import { Button, Grid, Icon, IconButton, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { createBacklog } from "../../store/plv2/backlogFrontlog/backlog";
 import moment from "moment";
@@ -72,12 +72,12 @@ export default function Backlog() {
           </IconButton>
         </div>
 
-        <Grid2 item xs={12} style={{ overflowX: "auto" }}>
+        <Grid item xs={12} style={{ overflowX: "auto" }}>
           {/* Horizontal scroll for total summary */}
           <div style={{ display: "inline-block", minWidth: "1000px" }}>
             <BlFlTotalSummary />
           </div>
-        </Grid2>
+        </Grid>
 
         {/* Backlog Grid */}
         <BacklogGrid searchValue={newsearchvalue} />

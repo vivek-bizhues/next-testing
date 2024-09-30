@@ -361,29 +361,30 @@ export default function DecliningFixedAssets() {
           openLedgerTotalView={openLedgerTotalView}
         />
 
-        <DataGrid
-          autoHeight
-          pagination
-          rows={rows}
-          columns={columns}
-          disableColumnMenu={true}
-          checkboxSelection
-          pageSize={pageSize}
-          rowCount={total}
-          sortingMode="server"
-          paginationMode="server"
-          rowsPerPageOptions={[10, 25, 50, 100]}
-          onSortModelChange={handleSortModel}
-          filterMode="server"
-          // onFilterModelChange={onFilterChange}
-          loading={fixedAssetDecliningPoolStore.isLoading}
-          onPageChange={(newPage) => {
-            setCurrentPage(newPage + 1);
-          }}
-          onPageSizeChange={(newPageSize) => {
-            setPageSize(newPageSize);
-          }}
-        />
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            autoHeight
+            pagination
+            rows={rows}
+            columns={columns}
+            disableColumnMenu={true}
+            checkboxSelection
+            pageSize={pageSize}
+            rowCount={total}
+            sortingMode="server"
+            paginationMode="server"
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onSortModelChange={handleSortModel}
+            filterMode="server"
+            loading={fixedAssetDecliningPoolStore.isLoading}
+            onPageChange={(newPage) => {
+              setCurrentPage(newPage + 1);
+            }}
+            onPageSizeChange={(newPageSize) => {
+              setPageSize(newPageSize);
+            }}
+          />
+        </div>
 
         <CRUDDecliningFixedAssets
           show={openForm}

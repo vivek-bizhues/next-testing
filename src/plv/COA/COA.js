@@ -272,25 +272,30 @@ export default function ChartOfAccounts() {
             setOpenForm(true);
           }}
         />
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pagination
-          disableColumnMenu={true}
-          pageSize={pageSize}
-          pageSizeOptions={[10, 25, 50]}
-          onPaginationModelChange={(paginationModel) => {
-            const { page, pageSize } = paginationModel;
-            setCurrentPage(page + 1);
-            setPageSize(pageSize);
-          }}
-          onSortModelChange={handleSortModel}
-          paginationMode="server"
-          sortingMode="server"
-          loading={loading}
-          rowCount={total}
-          autoPageSize
-        />
+
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            autoHeight
+            pagination
+            rows={rows}
+            columns={columns}
+            disableColumnMenu={true}
+            pageSize={pageSize}
+            rowCount={total}
+            sortingMode="server"
+            paginationMode="server"
+            rowsPerPageOptions={[10, 25, 50, 100]}
+            onSortModelChange={handleSortModel}
+            loading={coaStore.isLoading}
+            onPageChange={(newPage) => {
+              setCurrentPage(newPage + 1);
+            }}
+            onPageSizeChange={(newPageSize) => {
+              setPageSize(newPageSize);
+            }}
+          />
+        </div>
+
         <CRUDCoA
           show={openForm}
           mode={openFormMode}

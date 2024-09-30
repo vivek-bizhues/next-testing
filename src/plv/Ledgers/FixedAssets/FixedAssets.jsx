@@ -266,7 +266,7 @@ export default function FixedAssets() {
   ];
 
   const [newRecord, setNewRecord] = useState(initialDialogState);
-
+  2;
   const fixedAssetsStore = useSelector((state) => state.fixedAssets);
 
   const fixedAssetsTransactionsStore = useSelector(
@@ -451,27 +451,28 @@ export default function FixedAssets() {
           }}
           ledgerviewLoading={ledgerviewLoading}
         />
-
-        <DataGrid
-          pagination
-          rows={rows}
-          columns={columns}
-          disableColumnMenu={true}
-          pageSize={pageSize}
-          rowCount={total}
-          sortingMode="server"
-          paginationMode="server"
-          pageSizeOptions={[10, 25, 50, 100]}
-          onSortModelChange={handleSortModel}
-          filterMode="server"
-          loading={fixedAssetsStore.isLoading}
-          onPaginationModelChange={(paginationModel) => {
-            const { page, pageSize } = paginationModel;
-            setCurrentPage(page + 1);
-            setPageSize(pageSize);
-          }}
-          autoPageSize
-        />
+        <div style={{ height: 800, width: "100%" }}>
+          <DataGrid
+            autoHeight
+            pagination
+            rows={rows}
+            columns={columns}
+            disableColumnMenu={true}
+            pageSize={pageSize}
+            rowCount={total}
+            sortingMode="server"
+            paginationMode="server"
+            rowsPerPageOptions={[10, 25, 50]}
+            onSortModelChange={handleSortModel}
+            loading={fixedAssetsStore.isLoading}
+            onPageChange={(newPage) => {
+              setCurrentPage(newPage + 1);
+            }}
+            onPageSizeChange={(newPageSize) => {
+              setPageSize(newPageSize);
+            }}
+          />
+        </div>
 
         <CRUDFixedAsset
           show={openForm}
